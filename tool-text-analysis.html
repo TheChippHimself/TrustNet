@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Text Analysis Tool | TrustNet</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .scanner-ui {
+      background: var(--tan);
+      padding: 40px;
+      border-radius: 4px;
+      border: 1px solid var(--slate-gray);
+      margin-bottom: 30px;
+    }
+    textarea.text-input {
+      resize: vertical;
+      min-height: 150px;
+      margin-bottom: 20px;
+    }
+    
+    #results-panel {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.8s ease;
+      background: var(--deep-shadow);
+      border-radius: 4px;
+      border-left: 4px solid var(--slate-gray);
+    }
+    .results-inner { padding: 30px; }
+
+    /* Score Bar */
+    .score-container {
+      margin-bottom: 30px;
+    }
+    .score-header {
+      display: flex;
+      justify-content: space-between;
+      color: var(--off-white);
+      font-weight: bold;
+      margin-bottom: 10px;
+      font-family: var(--font-heading);
+    }
+    .score-track {
+      width: 100%;
+      height: 20px;
+      background: var(--space-cadet);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    .score-fill {
+      height: 100%;
+      width: 0%;
+      transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
+      border-radius: 10px;
+    }
+
+    /* Flag Grid */
+    .flags-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+      margin-bottom: 30px;
+    }
+    @media (max-width: 600px) {
+      .flags-grid { grid-template-columns: 1fr; }
+    }
+    .flag-tag {
+      padding: 12px 15px;
+      border-radius: 4px;
+      background: var(--space-cadet);
+      color: var(--slate-gray);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border: 1px solid var(--slate-gray);
+      font-size: 14px;
+      opacity: 0.5;
+      transition: all 0.3s;
+    }
+    .flag-tag.active-red {
+      background: rgba(231, 76, 60, 0.1);
+      color: #e74c3c;
+      border-color: #e74c3c;
+      opacity: 1;
+    }
+    .flag-tag.active-yellow {
+      background: rgba(241, 196, 15, 0.1);
+      color: #f1c40f;
+      border-color: #f1c40f;
+      opacity: 1;
+    }
+    .flag-tag.active-green {
+      background: rgba(46, 204, 113, 0.1);
+      color: #2ecc71;
+      border-color: #2ecc71;
+      opacity: 1;
+    }
+
+    /* Verdict Box */
+    .verdict-box {
+      background: var(--tan);
+      padding: 20px;
+      border-radius: 4px;
+      color: var(--space-cadet);
+    }
+    .verdict-title {
+      font-family: var(--font-heading);
+      font-size: 24px;
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="container nav-container">
+      <a href="index.html" class="logo">Trust<span>Net</span></a>
+      <button class="mobile-menu-btn" aria-label="Toggle navigation">☰</button>
+      <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="module-fake-news.html">Modules</a>
+        <a href="simulation-recommendation.html">Simulations</a>
+        <a href="tool-url-scanner.html" class="active">Tools</a>
+        <a href="quiz.html">Quiz</a>
+      </div>
+    </div>
+  </nav>
+
+  <section class="page-hero">
+    <div class="container hero-content fade-in">
+      <span class="tag">Detection Tool</span>
+      <h1>Text Analysis Tool</h1>
+      <p class="hero-desc">Paste any text or message to check it for signs of misinformation, bias, or manipulation.</p>
+    </div>
+  </section>
+
+  <section class="fade-in">
+    <div class="container" style="max-width: 800px;">
+      
+      <div class="scanner-ui">
+        <textarea id="text-input" class="text-input" placeholder="Paste a news headline, forwarded message, or article excerpt here..."></textarea>
+        <button id="analyze-btn" class="btn btn-primary">Analyze Text &rarr;</button>
+        <p class="text-slate" style="font-size: 14px; margin-top: 15px; margin-bottom: 0;">This tool uses client-side keyword matching. It does not send your text to any server.</p>
+      </div>
+
+      <div id="results-panel">
+        <div class="results-inner">
+          
+          <div class="score-container">
+            <div class="score-header">
+              <span>Credibility Score</span>
+              <span id="score-display">0%</span>
+            </div>
+            <div class="score-track">
+              <div id="score-fill" class="score-fill"></div>
+            </div>
+          </div>
+
+          <h3 style="color: var(--off-white); margin-bottom: 15px;">Language Flags</h3>
+          <div class="flags-grid">
+            <div id="flag-emotional" class="flag-tag">🔴 Emotional/Sensational</div>
+            <div id="flag-absolute" class="flag-tag">🔴 Absolute Claims</div>
+            <div id="flag-urgency" class="flag-tag">🟡 Urgency Triggers</div>
+            <div id="flag-conspiracy" class="flag-tag">🟡 Conspiracy Indicators</div>
+            <div id="flag-neutral" class="flag-tag">🟢 Neutral/Factual Tone</div>
+            <div id="flag-hedged" class="flag-tag">🟢 Hedged Language</div>
+          </div>
+
+          <div class="verdict-box">
+            <div class="verdict-title" id="verdict-title">Analysis Verdict</div>
+            <p id="verdict-explanation" style="margin: 0;"></p>
+          </div>
+
+          <button id="reset-btn" class="btn btn-outline mt-4">Analyze New Text</button>
+        </div>
+      </div>
+      
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <div class="footer-bottom" style="border:none; padding-top:0;">
+        &copy; 2026 TrustNet Platform. Built for educational purposes only.
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+  <script src="js/text-analysis.js"></script>
+</body>
+</html>

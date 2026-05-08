@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fake News Module | TrustNet</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .flow-step {
+      background: var(--deep-shadow);
+      padding: 20px;
+      border-radius: 4px;
+      border-left: 4px solid var(--slate-gray);
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+    .flow-icon {
+      font-size: 24px;
+      color: var(--caput-mortuum);
+    }
+    .checklist-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 15px;
+      margin-bottom: 20px;
+      background: var(--tan);
+      padding: 20px;
+      border-radius: 4px;
+      color: var(--space-cadet);
+    }
+    .checklist-icon {
+      color: var(--caput-mortuum);
+      flex-shrink: 0;
+    }
+    .exercise-card {
+      cursor: pointer;
+      border: 2px solid transparent;
+      transition: all 0.3s ease;
+    }
+    .exercise-card:hover {
+      border-color: var(--caput-mortuum);
+      transform: translateY(-5px);
+    }
+    .result-box {
+      display: none;
+      margin-top: 20px;
+      padding: 20px;
+      border-radius: 4px;
+    }
+    .result-box.active { display: block; }
+    .correct { background-color: rgba(46, 204, 113, 0.1); border: 2px solid #2ecc71; }
+    .incorrect { background-color: rgba(231, 76, 60, 0.1); border: 2px solid #e74c3c; }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav>
+    <div class="container nav-container">
+      <a href="index.html" class="logo">Trust<span>Net</span></a>
+      <button class="mobile-menu-btn" aria-label="Toggle navigation">☰</button>
+      <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="module-fake-news.html" class="active">Modules</a>
+        <a href="simulation-recommendation.html">Simulations</a>
+        <a href="tool-url-scanner.html">Tools</a>
+        <a href="quiz.html">Quiz</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="page-hero">
+    <div class="container hero-content fade-in">
+      <span class="tag">Module 01</span>
+      <h1>Understanding Fake News</h1>
+      <p class="hero-desc">Learn the anatomy of a false story, how it spreads, and the critical red flags you need to watch out for.</p>
+    </div>
+  </section>
+
+  <!-- What is Fake News? -->
+  <section class="bg-tan fade-in">
+    <div class="container">
+      <h2 class="text-space-cadet">What is Fake News?</h2>
+      <p class="text-space-cadet">Fake news refers to false or misleading information presented as legitimate news. It is often created to damage the reputation of a person or entity, or to make money through advertising revenue.</p>
+      
+      <div class="callout">
+        <h4 style="color: var(--off-white); margin-bottom: 5px;">Key Definition</h4>
+        <p style="color: var(--slate-gray); margin: 0;">Disinformation is intentionally false and spread to deceive. Misinformation is false but spread by people who believe it to be true.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- How it Spreads -->
+  <section class="fade-in">
+    <div class="container">
+      <h2>How Fake News Spreads</h2>
+      <div class="grid-2">
+        <div>
+          <div class="flow-step">
+            <div class="flow-icon">📝</div>
+            <div>
+              <h4 class="mb-2">1. False Story Created</h4>
+              <p class="text-slate">A sensational, fabricated story is published on a website designed to look like legitimate news.</p>
+            </div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-icon">🔗</div>
+            <div>
+              <h4 class="mb-2">2. Shared on Social Media</h4>
+              <p class="text-slate">Bots or individuals share the link in groups where people are likely to agree with the premise.</p>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="flow-step">
+            <div class="flow-icon">⚙️</div>
+            <div>
+              <h4 class="mb-2">3. Algorithm Amplifies</h4>
+              <p class="text-slate">Social media algorithms notice the high engagement (outrage, comments) and push the post to more feeds.</p>
+            </div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-icon">🌍</div>
+            <div>
+              <h4 class="mb-2">4. Goes Viral</h4>
+              <p class="text-slate">Mainstream users see the story, believe it, and share it further, giving it unwarranted credibility.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Red Flags Checklist -->
+  <section class="bg-shadow fade-in">
+    <div class="container">
+      <h2>Red Flags to Watch For</h2>
+      <p class="text-slate mb-4">Use this checklist before you hit "share".</p>
+      
+      <div class="grid-2">
+        <div class="checklist-item">
+          <div class="checklist-icon"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M19 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.11 0 2-.9 2-2V5c0-1.1-.89-2-2-2zm-9 14l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg></div>
+          <div>
+            <h4 style="color: var(--space-cadet); margin-bottom: 5px;">Sensational Headline</h4>
+            <p style="margin:0; font-size: 14px;">Headlines using ALL CAPS or extreme language designed to trigger emotion.</p>
+          </div>
+        </div>
+        <div class="checklist-item">
+          <div class="checklist-icon"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M19 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.11 0 2-.9 2-2V5c0-1.1-.89-2-2-2zm-9 14l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg></div>
+          <div>
+            <h4 style="color: var(--space-cadet); margin-bottom: 5px;">No Named Author</h4>
+            <p style="margin:0; font-size: 14px;">Legitimate journalism almost always attributes articles to a specific reporter.</p>
+          </div>
+        </div>
+        <div class="checklist-item">
+          <div class="checklist-icon"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M19 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.11 0 2-.9 2-2V5c0-1.1-.89-2-2-2zm-9 14l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg></div>
+          <div>
+            <h4 style="color: var(--space-cadet); margin-bottom: 5px;">Odd Website URL</h4>
+            <p style="margin:0; font-size: 14px;">Look out for domains ending in ".com.co" or variations of well-known news sites.</p>
+          </div>
+        </div>
+        <div class="checklist-item">
+          <div class="checklist-icon"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M19 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.11 0 2-.9 2-2V5c0-1.1-.89-2-2-2zm-9 14l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg></div>
+          <div>
+            <h4 style="color: var(--space-cadet); margin-bottom: 5px;">No Corroborating Sources</h4>
+            <p style="margin:0; font-size: 14px;">If it's a massive breaking story, more than one outlet should be covering it.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Interactive Spot the Fake -->
+  <section class="fade-in">
+    <div class="container text-center">
+      <h2>Interactive: Spot the Fake</h2>
+      <p class="text-slate mb-4">Click on the article you think is FAKE.</p>
+      
+      <div class="grid-3" id="exercise-container">
+        <div class="card exercise-card" data-is-fake="true">
+          <h4 style="color: var(--space-cadet); font-family: 'DM Sans', sans-serif;">SHOCKING: Aliens Found in Secret Government Base!!!</h4>
+          <p class="text-slate" style="font-size: 12px; margin-bottom: 10px;">By Admin | RealTruthNews.com.co</p>
+          <p style="color: var(--space-cadet); font-size: 14px;">They don't want you to know this, but insiders have leaked proof...</p>
+        </div>
+        
+        <div class="card exercise-card" data-is-fake="false">
+          <h4 style="color: var(--space-cadet); font-family: 'DM Sans', sans-serif;">City Council Approves New Public Park Funding</h4>
+          <p class="text-slate" style="font-size: 12px; margin-bottom: 10px;">By Sarah Jenkins | DailyChronicle.com</p>
+          <p style="color: var(--space-cadet); font-size: 14px;">In a 5-2 vote Tuesday evening, the council approved $1.2M...</p>
+        </div>
+        
+        <div class="card exercise-card" data-is-fake="true">
+          <h4 style="color: var(--space-cadet); font-family: 'DM Sans', sans-serif;">CELEBRITY EXPOSED: The Truth Will Ruin His Career!</h4>
+          <p class="text-slate" style="font-size: 12px; margin-bottom: 10px;">No Author | ViralBuzzDaily.net</p>
+          <p style="color: var(--space-cadet); font-size: 14px;">You won't believe what he was caught doing on camera...</p>
+        </div>
+      </div>
+      
+      <div id="exercise-result" class="result-box"></div>
+      <button id="reset-exercise" class="btn btn-outline mt-4" style="display: none;">Try Again</button>
+    </div>
+  </section>
+
+  <!-- Key Takeaways -->
+  <section class="bg-tan fade-in">
+    <div class="container">
+      <h2 class="text-space-cadet text-center">Key Takeaways</h2>
+      <ul style="max-width: 600px; margin: 0 auto; color: var(--space-cadet); font-size: 18px; line-height: 2;">
+        <li>Always check the source and author before sharing.</li>
+        <li>Be wary of intense emotional language in headlines.</li>
+        <li>Use fact-checking websites like Snopes or PolitiFact if unsure.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Module Nav Footer -->
+  <section style="padding: 40px 0; border-bottom: 1px solid rgba(97, 120, 145, 0.3);">
+    <div class="container flex-center" style="justify-content: space-between;">
+      <a href="index.html" class="btn btn-outline">&larr; Back to Home</a>
+      <a href="module-deepfake.html" class="btn btn-primary">Next: Deepfakes &rarr;</a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-bottom" style="border:none; padding-top:0;">
+        &copy; 2026 TrustNet Platform. Built for educational purposes only.
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const cards = document.querySelectorAll('.exercise-card');
+      const resultBox = document.getElementById('exercise-result');
+      const resetBtn = document.getElementById('reset-exercise');
+      
+      cards.forEach(card => {
+        card.addEventListener('click', function() {
+          if(resultBox.classList.contains('active')) return; // already answered
+          
+          const isFake = this.getAttribute('data-is-fake') === 'true';
+          
+          resultBox.classList.remove('correct', 'incorrect');
+          resultBox.classList.add('active');
+          
+          if(isFake) {
+            this.style.borderColor = '#2ecc71';
+            resultBox.classList.add('correct');
+            resultBox.innerHTML = '<h3 style="color:#2ecc71; margin-bottom:10px;">Correct!</h3><p>You spotted a fake article. Notice the sensational headline, lack of credible author, or suspicious URL.</p>';
+          } else {
+            this.style.borderColor = '#e74c3c';
+            resultBox.classList.add('incorrect');
+            resultBox.innerHTML = '<h3 style="color:#e74c3c; margin-bottom:10px;">Oops, that one was real.</h3><p>This is a standard news report with a named author, neutral headline, and specific facts.</p>';
+          }
+          
+          resetBtn.style.display = 'inline-block';
+        });
+      });
+      
+      resetBtn.addEventListener('click', () => {
+        resultBox.classList.remove('active');
+        resetBtn.style.display = 'none';
+        cards.forEach(c => c.style.borderColor = 'transparent');
+        
+        // Optional: shuffle cards
+        const container = document.getElementById('exercise-container');
+        for (let i = container.children.length; i >= 0; i--) {
+            container.appendChild(container.children[Math.random() * i | 0]);
+        }
+      });
+    });
+  </script>
+</body>
+</html>

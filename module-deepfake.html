@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Deepfake Module | TrustNet</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .diagram-step {
+      text-align: center;
+      padding: 30px;
+      background: var(--deep-shadow);
+      border: 2px solid var(--slate-gray);
+      border-radius: 4px;
+      position: relative;
+    }
+
+    .diagram-step:not(:last-child)::after {
+      content: '➔';
+      position: absolute;
+      right: -25px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 30px;
+      color: var(--caput-mortuum);
+      z-index: 10;
+    }
+
+    @media (max-width: 768px) {
+      .diagram-step:not(:last-child)::after {
+        content: '⬇';
+        right: 50%;
+        bottom: -35px;
+        top: auto;
+        transform: translateX(50%);
+      }
+    }
+
+    .comparison-table {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    .col-real,
+    .col-fake {
+      background: var(--tan);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .col-header {
+      padding: 20px;
+      text-align: center;
+      font-weight: bold;
+      color: var(--off-white);
+      font-family: var(--font-heading);
+    }
+
+    .col-real .col-header {
+      background: var(--space-cadet);
+    }
+
+    .col-fake .col-header {
+      background: var(--caput-mortuum);
+    }
+
+    .col-content {
+      padding: 20px;
+      color: var(--space-cadet);
+    }
+
+    .col-content ul {
+      padding-left: 20px;
+      line-height: 2;
+    }
+
+    /* Image Quiz Styles */
+    .img-placeholder {
+      width: 100%;
+      height: 250px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-heading);
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 15px;
+      border-radius: 4px;
+      color: var(--off-white);
+    }
+
+    .img-a {
+      background: linear-gradient(45deg, #1A2436, #25344F);
+    }
+
+    .img-b {
+      background: linear-gradient(45deg, #632024, #25344F);
+    }
+
+    .img-c {
+      background: linear-gradient(45deg, #617891, #1A2436);
+    }
+
+    .quiz-btns {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      margin-bottom: 15px;
+    }
+
+    .df-result {
+      display: none;
+      padding: 15px;
+      border-radius: 4px;
+      font-size: 14px;
+    }
+
+    .df-result.active {
+      display: block;
+    }
+
+    .correct {
+      background: rgba(46, 204, 113, 0.1);
+      border: 1px solid #2ecc71;
+      color: #2ecc71;
+    }
+
+    .incorrect {
+      background: rgba(231, 76, 60, 0.1);
+      border: 1px solid #e74c3c;
+      color: #e74c3c;
+    }
+  </style>
+</head>
+
+<body>
+
+  <nav>
+    <div class="container nav-container">
+      <a href="index.html" class="logo">Trust<span>Net</span></a>
+      <button class="mobile-menu-btn" aria-label="Toggle navigation">☰</button>
+      <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="module-fake-news.html" class="active">Modules</a>
+        <a href="simulation-recommendation.html">Simulations</a>
+        <a href="tool-url-scanner.html">Tools</a>
+        <a href="quiz.html">Quiz</a>
+      </div>
+    </div>
+  </nav>
+
+  <section class="page-hero">
+    <div class="container hero-content fade-in">
+      <span class="tag">Module 02</span>
+      <h1>Deepfakes & Manipulated Media</h1>
+      <p class="hero-desc">Discover how AI is used to create hyper-realistic synthetic media, and learn the subtle
+        visual clues to detect them.</p>
+    </div>
+  </section>
+
+  <section class="bg-tan fade-in">
+    <div class="container">
+      <h2 class="text-space-cadet">What is a Deepfake?</h2>
+      <p class="text-space-cadet">A deepfake is synthetic media where a person in an existing image or video is replaced
+        with someone else's likeness using artificial neural networks. The term is a portmanteau of "deep learning" and
+        "fake".</p>
+
+      <div class="callout" style="background: var(--off-white);">
+        <h4 style="color: var(--caput-mortuum); margin-bottom: 5px;">Distinction</h4>
+        <p style="color: var(--space-cadet); margin: 0;">Deepfakes use AI. This is different from "cheapfakes"
+          (traditional photo editing or video splicing) and satire (parody intended for humor, not deception).</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="fade-in">
+    <div class="container text-center">
+      <h2>How Deepfakes Are Made</h2>
+      <div class="grid-3 mt-4">
+        <div class="diagram-step">
+          <div class="icon-wrapper" style="margin: 0 auto 15px;"><svg viewBox="0 0 24 24">
+              <path
+                d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z" />
+            </svg></div>
+          <h4>1. Source Data</h4>
+          <p class="text-slate" style="font-size:14px;">Thousands of images/audio clips of the target are collected.</p>
+        </div>
+        <div class="diagram-step">
+          <div class="icon-wrapper" style="margin: 0 auto 15px; background: var(--slate-gray);"><svg
+              viewBox="0 0 24 24">
+              <path
+                d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.06-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.56-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.06.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .43-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.49-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z" />
+            </svg></div>
+          <h4>2. AI Training</h4>
+          <p class="text-slate" style="font-size:14px;">A neural network (autoencoder/GAN) learns the target's face
+            patterns.</p>
+        </div>
+        <div class="diagram-step">
+          <div class="icon-wrapper" style="margin: 0 auto 15px;"><svg viewBox="0 0 24 24">
+              <path
+                d="M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4z" />
+            </svg></div>
+          <h4>3. Synthetic Output</h4>
+          <p class="text-slate" style="font-size:14px;">The AI superimposes the learned face onto a source actor's body.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-shadow fade-in">
+    <div class="container">
+      <h2 class="text-center mb-4">How to Spot a Deepfake</h2>
+      <div class="comparison-table">
+        <div class="col-real">
+          <div class="col-header">Real Video Signs</div>
+          <div class="col-content">
+            <ul>
+              <li>Natural, rhythmic blinking.</li>
+              <li>Skin tone is consistent across the face and neck.</li>
+              <li>Shadows change naturally with movement.</li>
+              <li>Teeth are individually defined when speaking.</li>
+              <li>Hair movement flows naturally with the head.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-fake">
+          <div class="col-header">Deepfake Signs</div>
+          <div class="col-content">
+            <ul>
+              <li>Lack of blinking or unnatural eye movement.</li>
+              <li>Blurring or discoloration at the edge of the face.</li>
+              <li>Lighting on the face doesn't match the background.</li>
+              <li>Teeth look like a solid white block.</li>
+              <li>Frizzy hair looks like a blurry aura.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="fade-in">
+    <div class="container text-center">
+      <h2>Interactive: Real or Fake?</h2>
+      <p class="text-slate mb-4">Examine the placeholders and guess if they represent real or fake media.</p>
+
+      <div class="grid-3">
+        <!-- Image A -->
+        <div class="card" style="padding: 15px;">
+          <img src="assets/images/deepfake_a.png" alt="Portrait A"
+            style="width: 100%; height: 250px; object-fit: cover; border-radius: 4px; margin-bottom: 15px;">
+          <div class="quiz-btns" data-answer="fake">
+            <button class="btn btn-primary" style="padding: 8px 16px; font-size: 14px;" data-guess="real">Real</button>
+            <button class="btn btn-outline text-caput"
+              style="border-color: var(--caput-mortuum); padding: 8px 16px; font-size: 14px;"
+              data-guess="fake">Fake</button>
+          </div>
+          <div class="df-result"></div>
+        </div>
+
+        <!-- Image B -->
+        <div class="card" style="padding: 15px;">
+          <img src="assets/images/real_b.png" alt="Portrait B"
+            style="width: 100%; height: 250px; object-fit: cover; border-radius: 4px; margin-bottom: 15px;">
+          <div class="quiz-btns" data-answer="real">
+            <button class="btn btn-primary" style="padding: 8px 16px; font-size: 14px;" data-guess="real">Real</button>
+            <button class="btn btn-outline text-caput"
+              style="border-color: var(--caput-mortuum); padding: 8px 16px; font-size: 14px;"
+              data-guess="fake">Fake</button>
+          </div>
+          <div class="df-result"></div>
+        </div>
+
+        <!-- Image C -->
+        <div class="card" style="padding: 15px;">
+          <img src="assets/images/deepfake_c.png" alt="Portrait C"
+            style="width: 100%; height: 250px; object-fit: cover; border-radius: 4px; margin-bottom: 15px;">
+          <div class="quiz-btns" data-answer="fake">
+            <button class="btn btn-primary" style="padding: 8px 16px; font-size: 14px;" data-guess="real">Real</button>
+            <button class="btn btn-outline text-caput"
+              style="border-color: var(--caput-mortuum); padding: 8px 16px; font-size: 14px;"
+              data-guess="fake">Fake</button>
+          </div>
+          <div class="df-result"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section style="padding: 40px 0; border-top: 1px solid rgba(97, 120, 145, 0.3);">
+    <div class="container flex-center" style="justify-content: space-between;">
+      <a href="module-fake-news.html" class="btn btn-outline">&larr; Fake News</a>
+      <a href="simulation-recommendation.html" class="btn btn-primary">Next: Simulation &rarr;</a>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <div class="footer-bottom" style="border:none; padding-top:0;">
+        &copy; 2026 TrustNet Platform. Built for educational purposes only.
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const btnGroups = document.querySelectorAll('.quiz-btns');
+
+      btnGroups.forEach(group => {
+        const btns = group.querySelectorAll('button');
+        const correctAnswer = group.getAttribute('data-answer');
+        const resultDiv = group.nextElementSibling;
+
+        btns.forEach(btn => {
+          btn.addEventListener('click', function () {
+            // Disable buttons
+            btns.forEach(b => b.disabled = true);
+            const guess = this.getAttribute('data-guess');
+
+            resultDiv.classList.add('active');
+
+            if (guess === correctAnswer) {
+              resultDiv.classList.add('correct');
+              resultDiv.innerHTML = `<strong>Correct!</strong> This was ${correctAnswer}.`;
+            } else {
+              resultDiv.classList.add('incorrect');
+              resultDiv.innerHTML = `<strong>Incorrect.</strong> This was actually ${correctAnswer}.`;
+
+              if (correctAnswer === 'fake') {
+                resultDiv.innerHTML += '<br>Notice the blurred edges around the hair.';
+              } else {
+                resultDiv.innerHTML += '<br>Lighting and shadows behave naturally here.';
+              }
+            }
+          });
+        });
+      });
+    });
+  </script>
+</body>
+
+</html>

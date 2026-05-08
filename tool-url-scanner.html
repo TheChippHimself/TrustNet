@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>URL Scanner Tool | TrustNet</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .scanner-ui {
+      background: var(--tan);
+      padding: 40px;
+      border-radius: 4px;
+      border: 1px solid var(--slate-gray);
+      margin-bottom: 30px;
+    }
+    .input-group {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    @media (max-width: 768px) {
+      .input-group { flex-direction: column; }
+    }
+    .url-input {
+      flex: 1;
+      margin-bottom: 0 !important;
+      font-size: 18px !important;
+    }
+    
+    #results-panel {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.8s ease;
+      background: var(--deep-shadow);
+      border-radius: 4px;
+      border-left: 4px solid var(--slate-gray);
+    }
+    
+    .results-inner {
+      padding: 30px;
+    }
+
+    .risk-badge {
+      display: inline-block;
+      padding: 8px 16px;
+      font-family: var(--font-heading);
+      font-weight: bold;
+      text-transform: uppercase;
+      border-radius: 4px;
+      margin-bottom: 20px;
+      font-size: 18px;
+    }
+    .badge-safe { background: rgba(46, 204, 113, 0.2); color: #2ecc71; border: 1px solid #2ecc71; }
+    .badge-suspicious { background: rgba(241, 196, 15, 0.2); color: #f1c40f; border: 1px solid #f1c40f; }
+    .badge-dangerous { background: rgba(231, 76, 60, 0.2); color: #e74c3c; border: 1px solid #e74c3c; }
+
+    .check-list {
+      list-style: none;
+      margin-bottom: 20px;
+    }
+    .check-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+      color: var(--off-white);
+    }
+    .check-icon {
+      font-weight: bold;
+      font-size: 18px;
+    }
+    .icon-pass { color: #2ecc71; }
+    .icon-fail { color: #e74c3c; }
+
+    .summary-box {
+      background: var(--space-cadet);
+      padding: 20px;
+      border-radius: 4px;
+      margin-bottom: 20px;
+    }
+    
+    .action-box {
+      background: var(--tan);
+      color: var(--space-cadet);
+      padding: 20px;
+      border-radius: 4px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="container nav-container">
+      <a href="index.html" class="logo">Trust<span>Net</span></a>
+      <button class="mobile-menu-btn" aria-label="Toggle navigation">☰</button>
+      <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="module-fake-news.html">Modules</a>
+        <a href="simulation-recommendation.html">Simulations</a>
+        <a href="tool-url-scanner.html" class="active">Tools</a>
+        <a href="quiz.html">Quiz</a>
+      </div>
+    </div>
+  </nav>
+
+  <section class="page-hero">
+    <div class="container hero-content fade-in">
+      <span class="tag">Detection Tool</span>
+      <h1>URL Scanner</h1>
+      <p class="hero-desc">Enter any URL to analyze it for common phishing and suspicious patterns.</p>
+    </div>
+  </section>
+
+  <section class="fade-in">
+    <div class="container" style="max-width: 800px;">
+      
+      <div class="scanner-ui">
+        <div class="input-group">
+          <input type="url" id="url-input" class="url-input" placeholder="https://example.com/login" aria-label="URL to scan">
+          <button id="scan-btn" class="btn btn-primary">Scan URL &rarr;</button>
+        </div>
+        <p class="text-slate" style="font-size: 14px; margin: 0;">This tool runs client-side simulations based on common URL patterns. It does not actually visit the website.</p>
+      </div>
+
+      <div id="results-panel">
+        <div class="results-inner">
+          <div id="risk-badge" class="risk-badge badge-safe">Safe</div>
+          
+          <h3 style="color: var(--off-white); border-bottom: 1px solid var(--slate-gray); padding-bottom: 10px; margin-bottom: 20px;">Analysis Breakdown</h3>
+          
+          <ul class="check-list" id="check-list">
+            <!-- Populated by JS -->
+          </ul>
+          
+          <div class="summary-box">
+            <h4 style="color: var(--tan); margin-bottom: 5px;">Summary</h4>
+            <p id="summary-text" style="margin: 0; color: var(--off-white); font-size: 14px;"></p>
+          </div>
+          
+          <div class="action-box">
+            <h4 style="color: var(--caput-mortuum); margin-bottom: 5px;">What to do:</h4>
+            <p id="action-text" style="margin: 0; font-size: 14px;"></p>
+          </div>
+          
+          <button id="reset-btn" class="btn btn-outline mt-4">Scan Another URL</button>
+        </div>
+      </div>
+      
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <div class="footer-bottom" style="border:none; padding-top:0;">
+        &copy; 2026 TrustNet Platform. Built for educational purposes only.
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+  <script src="js/url-scanner.js"></script>
+</body>
+</html>

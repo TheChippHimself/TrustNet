@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Knowledge Quiz | TrustNet</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .quiz-container {
+      background: var(--tan);
+      border-radius: 4px;
+      border: 1px solid var(--slate-gray);
+      padding: 40px;
+      max-width: 800px;
+      margin: 0 auto 40px;
+      color: var(--space-cadet);
+    }
+
+    /* Progress Bar */
+    .progress-wrapper {
+      margin-bottom: 30px;
+    }
+    .progress-text {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      font-weight: bold;
+      color: var(--space-cadet);
+    }
+    .progress-bar {
+      width: 100%;
+      height: 10px;
+      background: var(--slate-gray);
+      border-radius: 5px;
+      overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%;
+      background: var(--caput-mortuum);
+      width: 0%;
+      transition: width 0.3s ease;
+    }
+
+    /* Questions */
+    .question-title {
+      font-family: var(--font-heading);
+      font-size: 24px;
+      margin-bottom: 20px;
+      color: var(--space-cadet);
+    }
+    
+    .options-grid {
+      display: grid;
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+    
+    .option-btn {
+      background: var(--off-white);
+      border: 2px solid var(--slate-gray);
+      padding: 15px 20px;
+      border-radius: 4px;
+      text-align: left;
+      font-family: var(--font-body);
+      font-size: 16px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      color: var(--space-cadet);
+    }
+    
+    .option-btn:hover:not(:disabled) {
+      border-color: var(--caput-mortuum);
+      background: rgba(99, 32, 36, 0.05);
+    }
+    
+    .option-btn.correct {
+      background: rgba(46, 204, 113, 0.1);
+      border-color: #2ecc71;
+    }
+    
+    .option-btn.incorrect {
+      background: rgba(231, 76, 60, 0.1);
+      border-color: #e74c3c;
+    }
+    
+    .option-btn:disabled {
+      cursor: default;
+    }
+
+    .explanation-box {
+      display: none;
+      padding: 20px;
+      background: var(--space-cadet);
+      color: var(--off-white);
+      border-radius: 4px;
+      margin-bottom: 20px;
+    }
+    .explanation-box.active { display: block; }
+
+    /* Results Screen */
+    #results-screen {
+      display: none;
+      text-align: center;
+    }
+    
+    .score-circle {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      border: 5px solid var(--caput-mortuum);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 48px;
+      font-family: var(--font-heading);
+      font-weight: bold;
+      color: var(--space-cadet);
+      margin: 0 auto 20px;
+    }
+    
+    .grade-label {
+      font-size: 28px;
+      font-family: var(--font-heading);
+      font-weight: bold;
+      color: var(--caput-mortuum);
+      margin-bottom: 10px;
+    }
+
+    .review-section {
+      text-align: left;
+      margin-top: 40px;
+      border-top: 2px solid var(--slate-gray);
+      padding-top: 20px;
+    }
+    .review-item {
+      background: var(--off-white);
+      padding: 20px;
+      border-radius: 4px;
+      margin-bottom: 15px;
+      border: 1px solid var(--slate-gray);
+    }
+    .review-item.review-correct { border-left: 4px solid #2ecc71; }
+    .review-item.review-incorrect { border-left: 4px solid #e74c3c; }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="container nav-container">
+      <a href="index.html" class="logo">Trust<span>Net</span></a>
+      <button class="mobile-menu-btn" aria-label="Toggle navigation">☰</button>
+      <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="module-fake-news.html">Modules</a>
+        <a href="simulation-recommendation.html">Simulations</a>
+        <a href="tool-url-scanner.html">Tools</a>
+        <a href="quiz.html" class="active">Quiz</a>
+      </div>
+    </div>
+  </nav>
+
+  <section class="page-hero">
+    <div class="container hero-content fade-in">
+      <span class="tag">Knowledge Check</span>
+      <h1>Test What You've Learned</h1>
+      <p class="hero-desc">Take this 10-question quiz to see how well you can navigate the digital world safely.</p>
+    </div>
+  </section>
+
+  <section class="fade-in">
+    <div class="container">
+      
+      <div class="quiz-container" id="quiz-screen">
+        <div class="progress-wrapper">
+          <div class="progress-text">
+            <span>Question <span id="current-q">1</span> of 10</span>
+          </div>
+          <div class="progress-bar">
+            <div class="progress-fill" id="progress-fill"></div>
+          </div>
+        </div>
+
+        <h2 class="question-title" id="question-text">Loading question...</h2>
+        
+        <div class="options-grid" id="options-container">
+          <!-- Options injected by JS -->
+        </div>
+        
+        <div class="explanation-box" id="explanation-box"></div>
+        
+        <div style="text-align: right;">
+          <button id="next-btn" class="btn btn-primary" style="display: none;">Next Question &rarr;</button>
+        </div>
+      </div>
+
+      <div class="quiz-container" id="results-screen">
+        <h2 style="color: var(--space-cadet);">Quiz Complete!</h2>
+        <div class="score-circle" id="final-score">8/10</div>
+        <div class="grade-label" id="grade-label">Proficient</div>
+        <p id="feedback-text" style="font-size: 18px; margin-bottom: 30px;"></p>
+        
+        <div>
+          <button id="retake-btn" class="btn btn-primary">Retake Quiz</button>
+          <a href="index.html" class="btn btn-outline" style="color: var(--space-cadet); border-color: var(--space-cadet);">Back to Home</a>
+        </div>
+        
+        <div class="review-section">
+          <h3 style="color: var(--space-cadet); margin-bottom: 20px;">Review Answers</h3>
+          <div id="review-container">
+            <!-- Review items injected by JS -->
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <div class="footer-bottom" style="border:none; padding-top:0;">
+        &copy; 2026 TrustNet Platform. Built for educational purposes only.
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+  <script src="js/quiz.js"></script>
+</body>
+</html>
